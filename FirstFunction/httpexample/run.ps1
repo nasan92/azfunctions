@@ -8,6 +8,7 @@ Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
 $name = $Request.Query.Name
+$lastname = $Request.Query.lastname
 if (-not $name) {
     $name = $Request.Body.Name
 }
@@ -19,7 +20,7 @@ if ($name) {
     Push-OutputBinding -name msg -Value $outputMsg
 
     $status = [HttpStatusCode]::OK
-    $body = "He $name. This HTTP triggered function executed successfully."
+    $body = "Hello, $lastname , $name. This HTTP triggered function executed successfully."
 }else {
     $status = [HttpStatusCode]::BadRequest
     $body = "Please pass a name on the query string or in the request body."
@@ -30,4 +31,3 @@ Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = $status
     Body = $body
 })
-

@@ -7,16 +7,41 @@ param($Request, $TriggerMetadata)
 Write-Host "PowerShell HTTP trigger function processed a request."
 
 # Interact with query parameters or the body of the request.
+
+function Send-Telegram {
+    Param(
+        [Parameter(Mandatory=$true)]
+        [String]$Message
+        )
+    $Telegramtoken = "1743757698:AAHaO-aC8s7InTalgbLai1CE3DhaUmkkyQ4"
+    $Telegramchatid = "29042198"
+   # [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    $Response = Invoke-RestMethod -Uri "https://api.telegram.org/bot$($Telegramtoken)/sendMessage?chat_id=$($Telegramchatid)&text=$($Message)"
+}
+
+
+Write-Host ($Request.Body | Convertto-Json)
+#Write-Host ($Request.Body.message.text | Convertto-Json)
+$text = ($Request.Body.message.text | Convertto-Json)
+Write-Host $text
+
+if($text -match "Spast"){
+    Send-Telegram -Message "Ja das bisch spast"
+}
+$body = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
+
+
+
+<#
+
 $name = $Request.Query.Name
 if (-not $name) {
     $name = $Request.Body.Name
 }
 
-$body = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
-
 if ($name) {
     $outputMsg = $name
-    Push-OutputBinding -name msg -Value $outputMsg
+   # Push-OutputBinding -name msg -Value $outputMsg
 
     $status = [HttpStatusCode]::OK
     $body = "He $name. This HTTP triggered function executed successfully."
@@ -24,10 +49,14 @@ if ($name) {
     $status = [HttpStatusCode]::BadRequest
     $body = "Please pass a name on the query string or in the request body."
 }
+Write-Host $body
+Write-Host ($Request.Body | Convertto-Json)
 
 # Associate values to output bindings by calling 'Push-OutputBinding'.
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
     StatusCode = $status
     Body = $body
+    
 })
 
+#>

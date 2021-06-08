@@ -1,0 +1,19 @@
+{
+    "message": {
+        "text": "Spast",
+        "chat": {
+            "type": "private",
+            "id": 547998413,
+            "first_name": "Jonathan"
+        },
+        "message_id": 25,
+        "from": {
+            "language_code": "de",
+            "is_bot": false,
+            "id": 547998413,
+            "first_name": "Jonathan"
+        },
+        "date": 1623153740
+    },
+    "update_id": 920984061
+}

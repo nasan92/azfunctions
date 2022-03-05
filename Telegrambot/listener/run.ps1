@@ -28,6 +28,12 @@ Write-Host $text
 if($text -match "Spast"){
     Send-Telegram -Message "Ja das bisch spast"
 }
+
+if($text -match "dogfact"){
+    $RandomNumber = Get-Random -Maximum 430
+    $dogfact = Invoke-RestMethod -Uri "https://dog-facts-api.herokuapp.com/api/v1/resources/dogs?index=$($RandomNumber)"
+    Send-Telegram -Message "$($dogfact)"
+}
 $body = "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
 
 
